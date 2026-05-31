@@ -14,6 +14,9 @@ import {
   type TaskQuickFilter,
 } from "./utils/taskStatus";
 
+type ThemeMode = "dark" | "light";
+
+const THEME_STORAGE_KEY = "project-pulse-theme";
 const LAST_SYNC_FORMATTER = new Intl.DateTimeFormat("pt-BR", {
   day: "2-digit",
   month: "2-digit",
@@ -36,10 +39,20 @@ function formatLastSync(lastSyncAt: Date | null) {
   return `Última sincronização: ${LAST_SYNC_FORMATTER.format(lastSyncAt)}`;
 }
 
+function getStoredTheme(): ThemeMode {
+  if (typeof window === "undefined") {
+    return "dark";
+  }
+
+  const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+  return storedTheme === "light" ? "light" : "dark";
+}
+
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [query, setQuery] = useState("");
   const [activeQuickFilter, setActiveQuickFilter] = useState<TaskQuickFilter>("all");
+  const [theme, setTheme] = useState<ThemeMode>(() => getStoredTheme());
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastSyncAt, setLastSyncAt] = useState<Date | null>(null);
@@ -78,6 +91,11 @@ function App() {
   useEffect(() => {
     void loadTasks("initial");
   }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
 
   const filteredTasks = useMemo(() => {
     const searchFilteredTasks = filterTasks(tasks, query);
@@ -122,11 +140,13 @@ function App() {
     : isRefreshing
       ? "Atualizando dados do dashboard..."
       : "Atualizado com dados do backend";
+  const nextTheme = theme === "dark" ? "light" : "dark";
+  const themeButtonLabel = theme === "dark" ? "Modo claro" : "Modo escuro";
 
   return (
     <main className="dashboard-shell">
       <section className="dashboard-header">
-        <div>
+        <div className="header-copy">
           <p className="eyebrow">Executive Task Dashboard</p>
           <h1>Project Pulse</h1>
           <p className="subtitle">
@@ -139,15 +159,25 @@ function App() {
             <span className={`status-indicator ${isBusy ? "status-indicator--loading" : ""}`} />
             <span>{syncMessage}</span>
           </div>
-          <button
-            type="button"
-            className="refresh-button"
-            onClick={() => void loadTasks("refresh")}
-            disabled={isBusy}
-            aria-label={isRefreshing ? "Atualizando dados do dashboard" : "Atualizar dados do dashboard"}
-          >
-            {isRefreshing ? "Atualizando..." : "Atualizar dados"}
-          </button>
+          <div className="header-button-row">
+            <button
+              type="button"
+              className="theme-button"
+              onClick={() => setTheme(nextTheme)}
+              aria-label={theme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
+            >
+              {themeButtonLabel}
+            </button>
+            <button
+              type="button"
+              className="refresh-button"
+              onClick={() => void loadTasks("refresh")}
+              disabled={isBusy}
+              aria-label={isRefreshing ? "Atualizando dados do dashboard" : "Atualizar dados do dashboard"}
+            >
+              {isRefreshing ? "Atualizando..." : "Atualizar dados"}
+            </button>
+          </div>
           <p className="last-sync" aria-live="polite">
             {formatLastSync(lastSyncAt)}
           </p>

@@ -37,6 +37,7 @@ O objetivo do teste técnico era integrar com a API real do ClickUp, processar t
 - Insight executivo calculado a partir das tarefas filtradas.
 - Atualização manual dos dados sem recarregar a página.
 - Indicador de última sincronização.
+- Suporte a tema claro e escuro com preferência persistida no navegador.
 - Deploy público em Render e Vercel.
 - Observabilidade básica com logs JSON seguros.
 - Testes unitários para regras principais.

@@ -44,8 +44,8 @@ Digitar no filtro por nome de tarefa ou responsavel.
 
 "Em resumo, o Project Pulse conecta dados reais do ClickUp com uma visao executiva: mostra gargalos, aponta tarefas criticas e ajuda a lideranca a decidir onde intervir primeiro."
 
-"A mesma base pode rodar localmente ou em deploy publico, mantendo o token protegido no backend."
+"A mesma base esta preparada para rodar localmente ou em deploy publico, mantendo o token protegido no backend. Tambem ha logs seguros e testes unitarios nas regras principais."
 
 ## Versao Curta (fala pronta para Loom)
 
-"Este e o Project Pulse, um dashboard executivo integrado ao ClickUp. No topo, mostramos total de tarefas, tarefas criticas e concluidas para leitura rapida da saude operacional. A criticidade e calculada no backend: tarefa com prioridade urgent, ou sem atualizacao ha mais de 3 dias. No board, as tarefas ficam em To Do, Doing e Done, com destaque visual forte para riscos. Tambem temos filtro por nome ou responsavel, e esse filtro atualiza tanto colunas quanto indicadores. Com isso, a lideranca consegue identificar gargalos, priorizar intervencoes e acompanhar a execucao com clareza." 
+"Este e o Project Pulse, um dashboard executivo integrado ao ClickUp. No topo, mostramos total de tarefas, tarefas criticas e concluidas para leitura rapida da saude operacional. A criticidade e calculada no backend: tarefa com prioridade urgent, ou sem atualizacao ha mais de 3 dias. No board, as tarefas ficam em To Do, Doing e Done, com destaque visual forte para riscos. Tambem temos filtro por nome ou responsavel, e esse filtro atualiza tanto colunas quanto indicadores. A aplicacao esta em deploy publico, com token protegido no backend, logs seguros e testes unitarios nas regras centrais. Com isso, a lideranca consegue identificar gargalos, priorizar intervencoes e acompanhar a execucao com clareza."

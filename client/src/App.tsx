@@ -83,8 +83,8 @@ function App() {
           <p className="eyebrow">Executive Task Dashboard</p>
           <h1>Project Pulse</h1>
           <p className="subtitle">
-            Painel executivo para acompanhar prioridade, andamento e pontos de atencao
-            das tarefas vindas do ClickUp.
+            Painel executivo para acompanhar saude geral, tarefas criticas,
+            gargalos em andamento e entregas concluidas a partir do ClickUp.
           </p>
         </div>
         <div className="header-status">
@@ -116,7 +116,14 @@ function App() {
       ) : null}
 
       {!isLoading && !errorMessage ? (
-        <TaskBoard todoTasks={todoTasks} doingTasks={doingTasks} doneTasks={doneTasks} />
+        filteredTasks.length === 0 ? (
+          <section className="feedback-panel">
+            <h2>Nenhuma tarefa encontrada</h2>
+            <p>Ajuste o filtro para visualizar tarefas por nome ou responsavel.</p>
+          </section>
+        ) : (
+          <TaskBoard todoTasks={todoTasks} doingTasks={doingTasks} doneTasks={doneTasks} />
+        )
       ) : null}
     </main>
   );

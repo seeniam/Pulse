@@ -1,8 +1,8 @@
 # Project Pulse
 
-Project Pulse e a fundacao de um dashboard executivo full stack para integrar com a API do ClickUp, processar tarefas e apresentar indicadores para lideranca.
+Project Pulse e um dashboard executivo full stack para integrar com a API do ClickUp, processar tarefas e apresentar indicadores para lideranca.
 
-Nesta etapa, o projeto entrega a base profissional do monorepo, com backend em Node.js + Express + TypeScript e frontend em React + Vite + TypeScript, sem ainda implementar a integracao real com ClickUp.
+O projeto usa backend em Node.js + Express + TypeScript e frontend em React + Vite + TypeScript. A integracao com ClickUp acontece somente no backend para manter o token fora do navegador.
 
 ## Estrutura
 
@@ -23,7 +23,7 @@ Nesta etapa, o projeto entrega a base profissional do monorepo, com backend em N
 
 ## Configuracao de ambiente
 
-1. Crie um arquivo `.env` na raiz do projeto.
+1. Crie um arquivo `.env` ou `.env.local` na raiz do projeto.
 2. Use `.env.example` como referencia:
 
 ```env
@@ -32,7 +32,13 @@ CLICKUP_LIST_ID=
 PORT=3333
 ```
 
-O token do ClickUp deve permanecer apenas no backend. Nenhuma variavel sensivel deve ser exposta no frontend.
+O token do ClickUp deve permanecer apenas no backend. Nenhuma variavel sensivel deve ser exposta no frontend. O arquivo `.env.local` tambem e ignorado pelo Git e pode ser usado para credenciais locais.
+
+- `CLICKUP_TOKEN`: token pessoal ou token de app autorizado no ClickUp.
+- `CLICKUP_LIST_ID`: id da lista do ClickUp usada como origem das tarefas.
+- `PORT`: porta local do backend. O padrao do projeto e `3333`.
+
+Para encontrar o `CLICKUP_LIST_ID`, abra a lista no ClickUp e copie o id da URL da lista. Em muitas URLs ele aparece depois de `/li/`.
 
 ## Instalacao
 
@@ -53,6 +59,7 @@ npm run dev:server
 API esperada:
 
 - `GET http://localhost:3333/api/health`
+- `GET http://localhost:3333/api/tasks`
 
 Resposta esperada:
 
@@ -62,6 +69,34 @@ Resposta esperada:
   "service": "project-pulse-api"
 }
 ```
+
+O endpoint `/api/tasks` faz uma chamada real para:
+
+```text
+GET https://api.clickup.com/api/v2/list/{CLICKUP_LIST_ID}/task
+```
+
+Ele retorna tarefas normalizadas com estes campos:
+
+```json
+{
+  "tasks": [
+    {
+      "id": "task-id",
+      "name": "Task name",
+      "status": "to do",
+      "priority": "urgent",
+      "assignees": [],
+      "dueDate": null,
+      "dateUpdated": "1717000000000",
+      "url": "https://app.clickup.com/t/task-id",
+      "status_critico": true
+    }
+  ]
+}
+```
+
+`status_critico` sera `true` quando a prioridade for `urgent` ou quando a tarefa estiver sem atualizacoes ha mais de 3 dias.
 
 ## Executando o frontend
 
@@ -91,16 +126,15 @@ Build de todos os workspaces:
 npm run build
 ```
 
-## Escopo desta etapa
+## Escopo atual
 
 - Estrutura `server/` e `client/`
 - Endpoint backend de health check
+- Endpoint backend de tarefas integrado ao ClickUp
+- Normalizacao de tarefas e calculo de `status_critico`
 - Tela inicial do frontend
 - Configuracao segura de `.env`
 
 ## Proximas etapas
 
-- Integrar backend com a API real do ClickUp
-- Adicionar calculo de `status_critico`
 - Construir o dashboard executivo com filtros, resumo e colunas de status
-

@@ -8,8 +8,10 @@ type TaskColumnProps = {
 };
 
 export function TaskColumn({ title, count, tasks }: TaskColumnProps) {
+  const columnTone = title.toLowerCase().replace(/\s+/g, "-");
+
   return (
-    <section className="board-column" aria-label={title}>
+    <section className={`board-column board-column--${columnTone}`} aria-label={title}>
       <header className="board-column__header">
         <h2>{title}</h2>
         <span>{count}</span>

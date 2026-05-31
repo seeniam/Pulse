@@ -5,6 +5,7 @@ import { ExecutiveInsight } from "./components/ExecutiveInsight";
 import { SummaryCards } from "./components/SummaryCards";
 import { TaskBoard } from "./components/TaskBoard";
 import { TaskFilters } from "./components/TaskFilters";
+import projectPulseLogo from "./assets/project-pulse-logo.png";
 import type { Task } from "./types/task";
 import {
   applyQuickFilter,
@@ -146,13 +147,18 @@ function App() {
   return (
     <main className="dashboard-shell">
       <section className="dashboard-header">
-        <div className="header-copy">
-          <p className="eyebrow">Executive Task Dashboard</p>
-          <h1>Project Pulse</h1>
-          <p className="subtitle">
-            Painel executivo para acompanhar a saúde geral, as tarefas críticas,
-            os gargalos em andamento e as entregas concluídas a partir do ClickUp.
-          </p>
+        <div className="brand-lockup">
+          <div className="brand-logo-frame">
+            <img src={projectPulseLogo} alt="Project Pulse" className="brand-logo" />
+          </div>
+          <div className="header-copy">
+            <p className="eyebrow">Executive Task Dashboard</p>
+            <h1>Project Pulse</h1>
+            <p className="subtitle">
+              Painel executivo para acompanhar a saúde geral, as tarefas críticas,
+              os gargalos em andamento e as entregas concluídas a partir do ClickUp.
+            </p>
+          </div>
         </div>
         <div className="header-actions">
           <div className="header-status">
@@ -191,6 +197,7 @@ function App() {
           <SummaryCards
             totalTasks={filteredTasks.length}
             criticalTasks={criticalTasks}
+            doingTasks={doingTasks.length}
             completedTasks={doneTasks.length}
           />
 

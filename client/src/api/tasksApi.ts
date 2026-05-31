@@ -11,7 +11,7 @@ export async function fetchTasks() {
   const response = await fetch(TASKS_API_URL);
 
   if (!response.ok) {
-    throw new Error("Nao foi possivel carregar as tarefas do backend.");
+    throw new Error("Não foi possível carregar as tarefas do backend.");
   }
 
   const data = (await response.json()) as TasksResponse;

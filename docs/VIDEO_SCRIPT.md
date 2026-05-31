@@ -1,51 +1,51 @@
-# Video Script - Project Pulse (ate 3 minutos)
+# Video Script - Project Pulse (até 3 minutos)
 
-## Objetivo do Video
+## Objetivo do Vídeo
 
-Demonstrar valor executivo do Project Pulse: identificar gargalos, priorizar intervencoes e acompanhar saude operacional com base em tarefas reais do ClickUp.
+Demonstrar o valor executivo do Project Pulse: identificar gargalos, priorizar intervenções e acompanhar a saúde operacional com base em tarefas reais do ClickUp.
 
 ## Roteiro Cronometrado
 
 ### 0:00 - 0:20 | Abertura
 
-"Este e o Project Pulse, um dashboard executivo full stack integrado ao ClickUp. O objetivo e transformar tarefas operacionais em visao de lideranca, destacando volume, criticidade e andamento."
+"Este é o Project Pulse, um dashboard executivo full stack integrado ao ClickUp. O objetivo é transformar tarefas operacionais em visão de liderança, destacando volume, criticidade e andamento."
 
-### 0:20 - 0:45 | Visao Geral e Indicadores
+### 0:20 - 0:45 | Visão Geral e Indicadores
 
 Mostrar cards de resumo no topo.
 
-"Aqui no topo temos os indicadores principais: total de tarefas, tarefas criticas e concluidas. Isso permite um check rapido da saude geral da operacao."
+"Aqui no topo temos os indicadores principais: total de tarefas, tarefas críticas e concluídas. Isso permite uma leitura rápida da saúde geral da operação."
 
 ### 0:45 - 1:15 | Regra de Criticidade
 
-Mostrar uma tarefa critica no board.
+Mostrar uma tarefa crítica no board.
 
-"A criticidade e calculada no backend. Uma tarefa vira critica quando tem prioridade `urgent` ou quando esta sem atualizacao ha mais de 3 dias. Isso ajuda a trazer risco para frente da fila."
+"A criticidade é calculada no backend. Uma tarefa se torna crítica quando tem prioridade `urgent` ou quando está sem atualização há mais de 3 dias. Isso ajuda a trazer o risco para a frente da fila."
 
 ### 1:15 - 1:45 | Board Executivo
 
-Mostrar as tres colunas.
+Mostrar as três colunas.
 
-"As tarefas sao organizadas em `To Do`, `Doing` e `Done`, criando uma leitura imediata de fluxo. Assim a lideranca enxerga acumulacao de pendencias, andamento e entregas finalizadas."
+"As tarefas são organizadas em `To Do`, `Doing` e `Done`, criando uma leitura imediata do fluxo. Assim, a liderança enxerga acúmulo de pendências, andamento e entregas finalizadas."
 
 ### 1:45 - 2:10 | Destaque Visual de Risco
 
-Mostrar badge/borda critica.
+Mostrar badge ou borda crítica.
 
-"As tarefas criticas aparecem com destaque visual claro, com badge e estilo de alerta. Isso facilita priorizacao sem depender de leitura detalhada item a item."
+"As tarefas críticas aparecem com destaque visual claro, com badge e estilo de alerta. Isso facilita a priorização sem depender de leitura detalhada item a item."
 
 ### 2:10 - 2:35 | Filtro Operacional
 
-Digitar no filtro por nome de tarefa ou responsavel.
+Digitar no filtro por nome de tarefa ou responsável.
 
-"Com o filtro rapido, eu posso focar por responsavel ou tema especifico. O filtro afeta tanto as colunas quanto os indicadores, entao a analise fica contextual."
+"Com o filtro rápido, eu posso focar por responsável ou por um tema específico. O filtro afeta tanto as colunas quanto os indicadores, então a análise fica contextual."
 
 ### 2:35 - 3:00 | Encerramento de Valor
 
-"Em resumo, o Project Pulse conecta dados reais do ClickUp com uma visao executiva: mostra gargalos, aponta tarefas criticas e ajuda a lideranca a decidir onde intervir primeiro."
+"Em resumo, o Project Pulse conecta dados reais do ClickUp a uma visão executiva: mostra gargalos, aponta tarefas críticas e ajuda a liderança a decidir onde intervir primeiro."
 
-"A mesma base esta preparada para rodar localmente ou em deploy publico, mantendo o token protegido no backend. Tambem ha logs seguros e testes unitarios nas regras principais."
+"A mesma base está preparada para rodar localmente ou em deploy público, mantendo o token protegido no backend. Também há logs seguros e testes unitários nas regras principais."
 
-## Versao Curta (fala pronta para Loom)
+## Versão Curta (fala pronta para Loom)
 
-"Este e o Project Pulse, um dashboard executivo integrado ao ClickUp. No topo, mostramos total de tarefas, tarefas criticas e concluidas para leitura rapida da saude operacional. A criticidade e calculada no backend: tarefa com prioridade urgent, ou sem atualizacao ha mais de 3 dias. No board, as tarefas ficam em To Do, Doing e Done, com destaque visual forte para riscos. Tambem temos filtro por nome ou responsavel, e esse filtro atualiza tanto colunas quanto indicadores. A aplicacao esta em deploy publico, com token protegido no backend, logs seguros e testes unitarios nas regras centrais. Com isso, a lideranca consegue identificar gargalos, priorizar intervencoes e acompanhar a execucao com clareza."
+"Este é o Project Pulse, um dashboard executivo integrado ao ClickUp. No topo, mostramos total de tarefas, tarefas críticas e concluídas para uma leitura rápida da saúde operacional. A criticidade é calculada no backend: tarefa com prioridade urgent ou sem atualização há mais de 3 dias. No board, as tarefas ficam em To Do, Doing e Done, com destaque visual forte para riscos. Também temos filtro por nome ou responsável, e esse filtro atualiza tanto as colunas quanto os indicadores. A aplicação está em deploy público, com token protegido no backend, logs seguros e testes unitários nas regras centrais. Com isso, a liderança consegue identificar gargalos, priorizar intervenções e acompanhar a execução com clareza."

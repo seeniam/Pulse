@@ -37,7 +37,7 @@ function formatPriority(priority: string | null) {
 }
 
 export function TaskCard({ task }: TaskCardProps) {
-  const primaryAssignee = task.assignees[0]?.name ?? "Sem responsavel";
+  const primaryAssignee = task.assignees[0]?.name ?? "Sem responsável";
 
   return (
     <article className={`task-card ${task.status_critico ? "task-card--critical" : ""}`}>
@@ -46,7 +46,7 @@ export function TaskCard({ task }: TaskCardProps) {
           <h3>{task.name}</h3>
           <p>{task.status}</p>
         </div>
-        {task.status_critico ? <span className="critical-badge">Critica</span> : null}
+        {task.status_critico ? <span className="critical-badge">Crítica</span> : null}
       </div>
 
       <dl className="task-meta">
@@ -55,7 +55,7 @@ export function TaskCard({ task }: TaskCardProps) {
           <dd>{formatPriority(task.priority)}</dd>
         </div>
         <div>
-          <dt>Responsavel</dt>
+          <dt>Responsável</dt>
           <dd>{primaryAssignee}</dd>
         </div>
         <div>
@@ -63,7 +63,7 @@ export function TaskCard({ task }: TaskCardProps) {
           <dd>{formatDate(task.dueDate)}</dd>
         </div>
         <div>
-          <dt>Ultima atualizacao</dt>
+          <dt>Última atualização</dt>
           <dd>{formatDate(task.dateUpdated)}</dd>
         </div>
       </dl>

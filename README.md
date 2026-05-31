@@ -1,6 +1,6 @@
 # Project Pulse
 
-Project Pulse e um dashboard executivo full stack integrado ao ClickUp. Ele transforma tarefas operacionais em uma visao simples para lideranca: saude geral, gargalos, tarefas criticas e entregas concluidas.
+Project Pulse é um dashboard executivo full stack integrado ao ClickUp. Ele transforma tarefas operacionais em uma visão simples para a liderança: saúde geral, gargalos, tarefas críticas e entregas concluídas.
 
 ## Demo Online
 
@@ -8,42 +8,42 @@ Project Pulse e um dashboard executivo full stack integrado ao ClickUp. Ele tran
 - Backend health: https://pulse-tqpw.onrender.com/api/health
 - Backend tasks: https://pulse-tqpw.onrender.com/api/tasks
 
-Observacao: o endpoint de tarefas depende das variaveis de ambiente configuradas no backend e da lista ClickUp usada no deploy.
+Observação: o endpoint de tarefas depende das variáveis de ambiente configuradas no backend e da lista ClickUp usada no deploy.
 
-## Por Que Esse Projeto Existe
+## Por Que Este Projeto Existe
 
-O objetivo do teste tecnico era integrar com a API real do ClickUp, processar tarefas no backend e apresentar indicadores para tomada de decisao. O Project Pulse ajuda uma lideranca a responder rapidamente:
+O objetivo do teste técnico era integrar com a API real do ClickUp, processar tarefas no backend e apresentar indicadores para tomada de decisão. O Project Pulse ajuda uma liderança a responder rapidamente:
 
-- Quantas tarefas estao no fluxo?
-- Quais tarefas exigem atencao imediata?
+- Quantas tarefas estão no fluxo?
+- Quais tarefas exigem atenção imediata?
 - Onde existem gargalos em andamento?
-- O que ja foi concluido?
+- O que já foi concluído?
 
 ## Funcionalidades Entregues
 
-- Integracao real com ClickUp em `GET /api/tasks`.
+- Integração real com ClickUp em `GET /api/tasks`.
 - Busca de tarefas abertas e fechadas com `include_closed=true`.
-- Paginacao defensiva na leitura da API do ClickUp.
+- Paginação defensiva na leitura da API do ClickUp.
 - Campo `status_critico` calculado no backend.
 - Payload normalizado antes de chegar ao frontend.
 - Dashboard executivo com cards de resumo.
 - Colunas `To Do`, `Doing` e `Done`.
-- Filtro por nome da tarefa ou responsavel.
-- Destaque visual para tarefas criticas.
-- Deploy publico em Render e Vercel.
-- Observabilidade basica com logs JSON seguros.
-- Testes unitarios para as regras principais.
+- Filtro por nome da tarefa ou responsável.
+- Destaque visual para tarefas críticas.
+- Deploy público em Render e Vercel.
+- Observabilidade básica com logs JSON seguros.
+- Testes unitários para as regras principais.
 
 ## Regra `status_critico`
 
 O backend adiciona `status_critico` antes de enviar as tarefas ao frontend.
 
-Uma tarefa e critica quando:
+Uma tarefa é crítica quando:
 
 1. `priority === "urgent"`; ou
-2. `date_updated` indica mais de 3 dias sem atualizacao.
+2. `date_updated` indica mais de 3 dias sem atualização.
 
-Se `date_updated` vier ausente ou invalido, o calculo nao quebra e considera apenas as condicoes validas.
+Se `date_updated` vier ausente ou inválido, o cálculo não quebra e considera apenas as condições válidas.
 
 ## Stack
 
@@ -61,14 +61,14 @@ Se `date_updated` vier ausente ou invalido, o calculo nao quebra e considera ape
 
 O projeto usa um monorepo simples:
 
-- `server/`: backend Express responsavel por autenticar no ClickUp, buscar tarefas, normalizar dados e calcular `status_critico`.
-- `client/`: frontend React responsavel por exibir o dashboard executivo.
-- `docs/`: workflow, roteiro de video e documentacao de apoio.
+- `server/`: backend Express responsável por autenticar no ClickUp, buscar tarefas, normalizar dados e calcular `status_critico`.
+- `client/`: frontend React responsável por exibir o dashboard executivo.
+- `docs/`: workflow, roteiro de vídeo e documentação de apoio.
 
 Fluxo:
 
 ```text
-ClickUp API -> Backend Express -> Frontend React -> Usuario
+ClickUp API -> Backend Express -> Frontend React -> Usuário
 ```
 
 O frontend nunca conversa diretamente com o ClickUp. O token fica somente no backend.
@@ -96,7 +96,7 @@ O frontend nunca conversa diretamente com o ClickUp. O token fica somente no bac
 
 ## Como Rodar Localmente
 
-1. Instale as dependencias na raiz:
+1. Instale as dependências na raiz:
 
 ```bash
 npm install
@@ -122,7 +122,7 @@ npm run dev:client
 - Backend health: `http://localhost:3333/api/health`
 - Backend tasks: `http://localhost:3333/api/tasks`
 
-## Variaveis de Ambiente
+## Variáveis de Ambiente
 
 Exemplo:
 
@@ -139,14 +139,14 @@ VITE_API_BASE_URL=http://localhost:3333
 
 Backend:
 
-- `CLICKUP_TOKEN`: token de API do ClickUp. E segredo.
+- `CLICKUP_TOKEN`: token de API do ClickUp. É segredo.
 - `CLICKUP_LIST_ID`: id da lista ClickUp monitorada.
-- `PORT`: porta local do backend. Padrao: `3333`.
+- `PORT`: porta local do backend. Padrão: `3333`.
 - `CLIENT_ORIGIN`: origem permitida pelo CORS do backend.
 
 Frontend:
 
-- `VITE_API_BASE_URL`: URL base do backend. Nao e segredo.
+- `VITE_API_BASE_URL`: URL base do backend. Não é segredo.
 
 Nunca commite `.env` ou `.env.local`.
 
@@ -154,7 +154,7 @@ Nunca commite `.env` ou `.env.local`.
 
 1. Crie ou escolha um Workspace no ClickUp.
 2. Crie um Space, Folder e List, ou use uma List existente.
-3. Crie tarefas com status variados, como `pendente`, `em progresso` e `concluido`.
+3. Crie tarefas com status variados, como `pendente`, `em progresso` e `concluído`.
 4. Configure prioridades, incluindo pelo menos uma tarefa `urgent` para testar criticidade.
 5. Gere um Personal API Token no ClickUp.
 6. Copie o id da List para `CLICKUP_LIST_ID`.
@@ -165,11 +165,11 @@ Em muitos links do ClickUp, o id da lista aparece depois de `/li/`.
 
 ### `GET /`
 
-Retorna um diagnostico simples da API.
+Retorna um diagnóstico simples da API.
 
 ### `GET /api/health`
 
-Retorna status, nome do servico, uptime e timestamp.
+Retorna status, nome do serviço, uptime e timestamp.
 
 ### `GET /api/tasks`
 
@@ -191,7 +191,7 @@ Campos retornados ao frontend:
 - `url`
 - `status_critico`
 
-O backend nao retorna o payload bruto completo do ClickUp.
+O backend não retorna o payload bruto completo do ClickUp.
 
 ## Testes
 
@@ -216,9 +216,9 @@ npm run test:client
 Cobertura atual:
 
 - Backend: regra `status_critico`.
-- Frontend: classificacao de status em `To Do`, `Doing` e `Done`.
+- Frontend: classificação de status em `To Do`, `Doing` e `Done`.
 
-Os testes usam dados fake minimos e nao chamam a API real do ClickUp.
+Os testes usam dados fake mínimos e não chamam a API real do ClickUp.
 
 ## Builds
 
@@ -249,36 +249,36 @@ O backend gera logs JSON por linha com:
 - `timestamp`
 - `context`
 
-Cada request registra metodo, path, status HTTP e duracao em milissegundos.
+Cada request registra método, path, status HTTP e duração em milissegundos.
 
 O endpoint `GET /api/tasks` registra:
 
 - total de tarefas;
-- total de criticas;
-- distribuicao por status;
-- duracao da chamada ao ClickUp.
+- total de críticas;
+- distribuição por status;
+- duração da chamada ao ClickUp.
 
-Por seguranca, os logs nao incluem:
+Por segurança, os logs não incluem:
 
 - `CLICKUP_TOKEN`;
 - header `Authorization`;
 - body completo;
 - payload bruto completo do ClickUp.
 
-Em producao, os logs podem ser vistos no painel do Render.
+Em produção, os logs podem ser vistos no painel do Render.
 
 ## Deploy
 
 ### Backend no Render
 
-Configuracao:
+Configuração:
 
 - Root Directory: `server`
 - Build Command: `npm install && npm run build`
 - Start Command: `npm run start`
 - Health Check Path: `/api/health`
 
-Variaveis no Render:
+Variáveis no Render:
 
 - `CLICKUP_TOKEN`
 - `CLICKUP_LIST_ID`
@@ -288,56 +288,56 @@ O Render define `PORT` automaticamente. O servidor usa `process.env.PORT`.
 
 ### Frontend na Vercel
 
-Configuracao:
+Configuração:
 
 - Root Directory: `client`
 - Build Command: `npm run build`
 - Output Directory: `dist`
 
-Variavel na Vercel:
+Variável na Vercel:
 
-- `VITE_API_BASE_URL`: URL publica do backend Render.
+- `VITE_API_BASE_URL`: URL pública do backend Render.
 
 Depois de obter a URL final da Vercel, atualize `CLIENT_ORIGIN` no Render com essa origem.
 
-## Seguranca
+## Segurança
 
 - O token do ClickUp fica somente no backend.
-- `.env` e `.env.local` estao ignorados pelo Git.
-- O frontend usa apenas `VITE_API_BASE_URL`, que nao e segredo.
-- Erros da API sao sanitizados.
-- O payload entregue ao frontend e normalizado.
-- CORS e configuravel por `CLIENT_ORIGIN`.
-- Headers sensiveis e token nao sao logados.
+- `.env` e `.env.local` estão ignorados pelo Git.
+- O frontend usa apenas `VITE_API_BASE_URL`, que não é segredo.
+- Erros da API são sanitizados.
+- O payload entregue ao frontend é normalizado.
+- CORS é configurável por `CLIENT_ORIGIN`.
+- Headers sensíveis e token não são logados.
 
-## Decisoes Tecnicas
+## Decisões Técnicas
 
 - Monorepo `server/` e `client/` para manter a entrega simples.
 - Express foi usado pela simplicidade e clareza para o teste.
 - Vite foi usado pela velocidade no frontend.
-- Vitest cobre funcoes puras de maior risco.
-- `status_critico` fica no backend para centralizar regra de negocio.
-- O payload e normalizado para evitar acoplamento ao formato bruto do ClickUp.
-- Nao ha banco nem autenticacao propria porque nao eram requisitos do teste.
+- Vitest cobre funções puras de maior risco.
+- `status_critico` fica no backend para centralizar regra de negócio.
+- O payload é normalizado para evitar acoplamento ao formato bruto do ClickUp.
+- Não há banco nem autenticação própria porque não eram requisitos do teste.
 
-## Limitacoes Conhecidas
+## Limitações Conhecidas
 
-- Sem autenticacao de usuarios.
-- Sem banco de dados proprio.
-- Sem refresh automatico em tempo real.
-- Observabilidade basica, sem APM completo.
-- Testes unitarios focados nas regras principais, sem E2E.
-- Suporta uma lista ClickUp por configuracao de ambiente.
+- Sem autenticação de usuários.
+- Sem banco de dados próprio.
+- Sem refresh automático em tempo real.
+- Observabilidade básica, sem APM completo.
+- Testes unitários focados nas regras principais, sem E2E.
+- Suporta uma lista ClickUp por configuração de ambiente.
 
-## Proximos Passos Possiveis
+## Próximos Passos Possíveis
 
-1. Adicionar refresh manual ou automatico controlado.
+1. Adicionar refresh manual ou automático controlado.
 2. Melhorar filtros por status e prioridade.
-3. Adicionar testes de integracao da API com mocks.
-4. Adicionar monitoramento externo ou dashboard de metricas.
-5. Melhorar responsividade/mobile se necessario.
-6. Suportar multiplas listas ou projetos do ClickUp.
+3. Adicionar testes de integração da API com mocks.
+4. Adicionar monitoramento externo ou dashboard de métricas.
+5. Melhorar responsividade/mobile se necessário.
+6. Suportar múltiplas listas ou projetos do ClickUp.
 
-## Roteiro de Video
+## Roteiro de Vídeo
 
-O roteiro de demonstracao esta em [docs/VIDEO_SCRIPT.md](docs/VIDEO_SCRIPT.md).
+O roteiro de demonstração está em [docs/VIDEO_SCRIPT.md](docs/VIDEO_SCRIPT.md).

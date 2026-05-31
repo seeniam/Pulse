@@ -16,12 +16,12 @@ export function SummaryCards({
       tone: "default",
     },
     {
-      label: "Tarefas criticas",
+      label: "Tarefas críticas",
       value: criticalTasks,
       tone: "critical",
     },
     {
-      label: "Concluidas",
+      label: "Concluídas",
       value: completedTasks,
       tone: "success",
     },

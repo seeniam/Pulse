@@ -1,27 +1,27 @@
 # Plano de Entrega Incremental
 
-## Diagnostico Atual do Repositorio
+## Diagnóstico Atual do Repositório
 
-O repositorio atual esta vazio do ponto de vista de aplicacao: foi encontrada apenas a pasta `.git`.
+O repositório atual está vazio do ponto de vista de aplicação: foi encontrada apenas a pasta `.git`.
 
-Nao foram identificados ainda:
+Não foram identificados ainda:
 
 - `package.json`;
 - scripts de desenvolvimento ou build;
-- dependencias;
+- dependências;
 - backend;
 - frontend;
 - ponto de entrada;
 - README;
 - arquivos de ambiente.
 
-Isso indica que a implementacao deve comecar por uma fundacao simples, sem migracoes ou compatibilidade com codigo legado.
+Isso indica que a implementação deve começar por uma fundação simples, sem migrações ou compatibilidade com código legado.
 
-## Etapa 1 - Fundacao do Projeto
+## Etapa 1 - Fundação do Projeto
 
-Objetivo: criar uma estrutura minima full stack com TypeScript.
+Objetivo: criar uma estrutura mínima full stack com TypeScript.
 
-Arquivos provaveis:
+Arquivos prováveis:
 
 - `package.json`
 - `backend/package.json`
@@ -38,20 +38,20 @@ Arquivos provaveis:
 Riscos:
 
 - Criar estrutura pesada demais para o prazo.
-- Duplicar configuracoes desnecessarias.
+- Duplicar configurações desnecessárias.
 - Escolher ferramentas que exigem setup longo.
 
-Validacoes:
+Validações:
 
-- Scripts instalaveis e claros.
-- Estrutura compreensivel para avaliador tecnico.
+- Scripts instaláveis e claros.
+- Estrutura compreensível para avaliador técnico.
 - `.env` ignorado pelo git.
 
 ## Etapa 2 - Backend ClickUp
 
 Objetivo: criar API backend que consulta ClickUp com token seguro.
 
-Arquivos provaveis:
+Arquivos prováveis:
 
 - `backend/src/index.ts`
 - `backend/src/config/env.ts`
@@ -63,20 +63,20 @@ Riscos:
 
 - Expor token em erro ou log.
 - Assumir campos incorretos do payload ClickUp.
-- Nao tratar ausencia de `CLICKUP_LIST_ID` ou `CLICKUP_TOKEN`.
+- Não tratar ausência de `CLICKUP_LIST_ID` ou `CLICKUP_TOKEN`.
 
-Validacoes:
+Validações:
 
 - Endpoint backend chama ClickUp real.
 - Token vem de `.env`.
-- Erro de configuracao retorna mensagem segura.
-- Frontend nao conhece o token.
+- Erro de configuração retorna mensagem segura.
+- Frontend não conhece o token.
 
-## Etapa 3 - Normalizacao e `status_critico`
+## Etapa 3 - Normalização e `status_critico`
 
 Objetivo: transformar tarefas do ClickUp em modelo simples para o dashboard.
 
-Arquivos provaveis:
+Arquivos prováveis:
 
 - `backend/src/services/clickup.ts`
 - `backend/src/mappers/taskMapper.ts`
@@ -86,20 +86,20 @@ Riscos:
 
 - Prioridade `urgent` vir como objeto, string ou valor ausente.
 - Datas do ClickUp virem como timestamp em milissegundos em string.
-- Regra de mais de 3 dias ficar sensivel a timezone se implementada de forma confusa.
+- Regra de mais de 3 dias ficar sensível a timezone se implementada de forma confusa.
 
-Validacoes:
+Validações:
 
-- Tarefa com prioridade `urgent` fica critica.
-- Tarefa com `date_updated` maior que 3 dias fica critica.
-- Tarefa recente e nao urgente nao fica critica.
+- Tarefa com prioridade `urgent` fica crítica.
+- Tarefa com `date_updated` maior que 3 dias fica crítica.
+- Tarefa recente e não urgente não fica crítica.
 - Payload final inclui `status_critico`.
 
 ## Etapa 4 - Frontend Dashboard
 
-Objetivo: construir a experiencia executiva em React.
+Objetivo: construir a experiência executiva em React.
 
-Arquivos provaveis:
+Arquivos prováveis:
 
 - `frontend/src/App.tsx`
 - `frontend/src/api/tasks.ts`
@@ -112,21 +112,21 @@ Riscos:
 
 - Virar lista simples em vez de dashboard.
 - Layout quebrar em telas menores.
-- Filtro nao considerar responsaveis com nomes ausentes.
+- Filtro não considerar responsáveis com nomes ausentes.
 
-Validacoes:
+Validações:
 
-- Resumo exibe Total, Criticas e Concluidas.
+- Resumo exibe Total, Críticas e Concluídas.
 - Existem colunas `To Do`, `Doing`, `Done`.
-- Tarefas criticas tem destaque visual.
-- Filtro por nome e responsavel funciona.
-- Estados de loading e erro estao claros.
+- Tarefas críticas têm destaque visual.
+- Filtro por nome e responsável funciona.
+- Estados de loading e erro estão claros.
 
 ## Etapa 5 - README e Entrega
 
-Objetivo: preparar repositorio publico e video.
+Objetivo: preparar repositório público e vídeo.
 
-Arquivos provaveis:
+Arquivos prováveis:
 
 - `README.md`
 - `.env.example`
@@ -134,22 +134,22 @@ Arquivos provaveis:
 
 Riscos:
 
-- README esquecer variaveis obrigatorias.
-- Video passar de 3 minutos.
+- README esquecer variáveis obrigatórias.
+- Vídeo passar de 3 minutos.
 - Subir segredo por acidente.
 
-Validacoes:
+Validações:
 
 - `git status` revisado antes de publicar.
-- `.env` nao aparece em arquivos rastreados.
+- `.env` não aparece em arquivos rastreados.
 - README permite rodar projeto do zero.
-- Roteiro do video cobre criterios obrigatorios.
+- Roteiro do vídeo cobre critérios obrigatórios.
 
 ## Ordem Recomendada
 
-1. Criar fundacao full stack.
+1. Criar fundação full stack.
 2. Implementar backend com ClickUp.
 3. Implementar regra `status_critico`.
 4. Implementar frontend executivo.
 5. Validar localmente com `.env` real.
-6. Revisar README, checklist e video.
+6. Revisar README, checklist e vídeo.

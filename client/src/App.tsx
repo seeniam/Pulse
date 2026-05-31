@@ -30,7 +30,7 @@ function App() {
           setErrorMessage(
             error instanceof Error
               ? error.message
-              : "Nao foi possivel conectar ao backend do Project Pulse.",
+              : "Não foi possível conectar ao backend do Project Pulse.",
           );
         }
       } finally {
@@ -83,8 +83,8 @@ function App() {
           <p className="eyebrow">Executive Task Dashboard</p>
           <h1>Project Pulse</h1>
           <p className="subtitle">
-            Painel executivo para acompanhar saude geral, tarefas criticas,
-            gargalos em andamento e entregas concluidas a partir do ClickUp.
+            Painel executivo para acompanhar a saúde geral, as tarefas críticas,
+            os gargalos em andamento e as entregas concluídas a partir do ClickUp.
           </p>
         </div>
         <div className="header-status">
@@ -110,7 +110,7 @@ function App() {
 
       {!isLoading && errorMessage ? (
         <section className="feedback-panel feedback-panel--error">
-          <h2>Conexao indisponivel</h2>
+          <h2>Conexão indisponível</h2>
           <p>{errorMessage}</p>
         </section>
       ) : null}
@@ -119,7 +119,7 @@ function App() {
         filteredTasks.length === 0 ? (
           <section className="feedback-panel">
             <h2>Nenhuma tarefa encontrada</h2>
-            <p>Ajuste o filtro para visualizar tarefas por nome ou responsavel.</p>
+            <p>Ajuste o filtro para visualizar tarefas por nome ou responsável.</p>
           </section>
         ) : (
           <TaskBoard todoTasks={todoTasks} doingTasks={doingTasks} doneTasks={doneTasks} />

@@ -177,6 +177,14 @@ Se `date_updated` vier ausente ou invalido, o calculo nao quebra e considera ape
 - Nao ha token real versionado no repositorio.
 - Erros retornados pelo backend sao sanitizados, sem vazar credenciais.
 
+## Observabilidade
+
+- O backend gera logs JSON por linha com `level`, `message`, `timestamp` e `context`.
+- Cada request registra metodo, path, status HTTP e duracao em milissegundos.
+- O endpoint `GET /api/tasks` registra total de tarefas, total de criticas, distribuicao por status e duracao da chamada ao ClickUp.
+- Por seguranca, o sistema nao registra `CLICKUP_TOKEN`, header `Authorization`, body completo ou payload bruto do ClickUp.
+- Em producao, os logs podem ser consultados diretamente no painel do Render.
+
 ## Limitacoes Conhecidas
 
 - Sem autenticacao de usuario (escopo do teste tecnico).

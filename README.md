@@ -185,6 +185,31 @@ Se `date_updated` vier ausente ou invalido, o calculo nao quebra e considera ape
 - Por seguranca, o sistema nao registra `CLICKUP_TOKEN`, header `Authorization`, body completo ou payload bruto do ClickUp.
 - Em producao, os logs podem ser consultados diretamente no painel do Render.
 
+## Testes
+
+Executar todos os testes:
+
+```bash
+npm run test
+```
+
+Executar apenas backend:
+
+```bash
+npm run test:server
+```
+
+Executar apenas frontend:
+
+```bash
+npm run test:client
+```
+
+Cobertura atual:
+
+- Backend: regra `status_critico` em [criticalStatus.ts](</c:/Users/neemi/Pulse/server/src/utils/criticalStatus.ts>)
+- Frontend: classificacao de status em [taskStatus.ts](</c:/Users/neemi/Pulse/client/src/utils/taskStatus.ts>)
+
 ## Limitacoes Conhecidas
 
 - Sem autenticacao de usuario (escopo do teste tecnico).

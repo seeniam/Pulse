@@ -34,6 +34,11 @@ O objetivo do teste técnico era integrar com a API real do ClickUp, processar t
 - Observabilidade básica com logs JSON seguros.
 - Testes unitários para as regras principais.
 
+Atualizacoes recentes do dashboard:
+
+- Atualizacao manual dos dados sem recarregar a pagina.
+- Indicador discreto de ultima sincronizacao.
+
 ## Regra `status_critico`
 
 O backend adiciona `status_critico` antes de enviar as tarefas ao frontend.

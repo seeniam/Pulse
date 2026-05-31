@@ -6,45 +6,68 @@ import { TaskFilters } from "./components/TaskFilters";
 import type { Task } from "./types/task";
 import { classifyTaskStatus, filterTasks } from "./utils/taskStatus";
 
+const LAST_SYNC_FORMATTER = new Intl.DateTimeFormat("pt-BR", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+function formatLastSync(lastSyncAt: Date | null) {
+  if (!lastSyncAt) {
+    return "Aguardando primeira sincronizacao";
+  }
+
+  const elapsedMs = Date.now() - lastSyncAt.getTime();
+
+  if (elapsedMs < 60 * 1000) {
+    return "Ultima sincronizacao: agora";
+  }
+
+  return `Ultima sincronizacao: ${LAST_SYNC_FORMATTER.format(lastSyncAt)}`;
+}
+
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastSyncAt, setLastSyncAt] = useState<Date | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    let isMounted = true;
+  async function loadTasks(mode: "initial" | "refresh" = "initial") {
+    const isInitialLoad = mode === "initial";
 
-    async function loadTasks() {
-      try {
+    try {
+      if (isInitialLoad) {
         setIsLoading(true);
-        setErrorMessage("");
+      } else {
+        setIsRefreshing(true);
+      }
 
-        const nextTasks = await fetchTasks();
+      setErrorMessage("");
 
-        if (isMounted) {
-          setTasks(nextTasks);
-        }
-      } catch (error) {
-        if (isMounted) {
-          setErrorMessage(
-            error instanceof Error
-              ? error.message
-              : "Não foi possível conectar ao backend do Project Pulse.",
-          );
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
+      const nextTasks = await fetchTasks();
+      setTasks(nextTasks);
+      setLastSyncAt(new Date());
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Nao foi possivel conectar ao backend do Project Pulse.",
+      );
+    } finally {
+      if (isInitialLoad) {
+        setIsLoading(false);
+      } else {
+        setIsRefreshing(false);
       }
     }
+  }
 
-    void loadTasks();
-
-    return () => {
-      isMounted = false;
-    };
+  useEffect(() => {
+    void loadTasks("initial");
   }, []);
 
   const filteredTasks = useMemo(() => filterTasks(tasks, query), [query, tasks]);
@@ -76,6 +99,13 @@ function App() {
     return groupedTasks;
   }, [filteredTasks]);
 
+  const isBusy = isLoading || isRefreshing;
+  const syncMessage = isLoading
+    ? "Sincronizando tarefas..."
+    : isRefreshing
+      ? "Atualizando dados do dashboard..."
+      : "Atualizado com dados do backend";
+
   return (
     <main className="dashboard-shell">
       <section className="dashboard-header">
@@ -83,13 +113,27 @@ function App() {
           <p className="eyebrow">Executive Task Dashboard</p>
           <h1>Project Pulse</h1>
           <p className="subtitle">
-            Painel executivo para acompanhar a saúde geral, as tarefas críticas,
-            os gargalos em andamento e as entregas concluídas a partir do ClickUp.
+            Painel executivo para acompanhar a saude geral, as tarefas criticas,
+            os gargalos em andamento e as entregas concluidas a partir do ClickUp.
           </p>
         </div>
-        <div className="header-status">
-          <span className={`status-indicator ${isLoading ? "status-indicator--loading" : ""}`} />
-          <span>{isLoading ? "Sincronizando tarefas..." : "Atualizado com dados do backend"}</span>
+        <div className="header-actions">
+          <div className="header-status">
+            <span className={`status-indicator ${isBusy ? "status-indicator--loading" : ""}`} />
+            <span>{syncMessage}</span>
+          </div>
+          <button
+            type="button"
+            className="refresh-button"
+            onClick={() => void loadTasks("refresh")}
+            disabled={isBusy}
+            aria-label={isRefreshing ? "Atualizando dados do dashboard" : "Atualizar dados do dashboard"}
+          >
+            {isRefreshing ? "Atualizando..." : "Atualizar dados"}
+          </button>
+          <p className="last-sync" aria-live="polite">
+            {formatLastSync(lastSyncAt)}
+          </p>
         </div>
       </section>
 
@@ -110,7 +154,7 @@ function App() {
 
       {!isLoading && errorMessage ? (
         <section className="feedback-panel feedback-panel--error">
-          <h2>Conexão indisponível</h2>
+          <h2>Conexao indisponivel</h2>
           <p>{errorMessage}</p>
         </section>
       ) : null}
@@ -119,7 +163,7 @@ function App() {
         filteredTasks.length === 0 ? (
           <section className="feedback-panel">
             <h2>Nenhuma tarefa encontrada</h2>
-            <p>Ajuste o filtro para visualizar tarefas por nome ou responsável.</p>
+            <p>Ajuste o filtro para visualizar tarefas por nome ou responsavel.</p>
           </section>
         ) : (
           <TaskBoard todoTasks={todoTasks} doingTasks={doingTasks} doneTasks={doneTasks} />

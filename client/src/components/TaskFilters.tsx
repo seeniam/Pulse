@@ -2,10 +2,10 @@ import type { TaskQuickFilter } from "../utils/taskStatus";
 
 const QUICK_FILTER_OPTIONS: Array<{ label: string; value: TaskQuickFilter }> = [
   { label: "Todos", value: "all" },
-  { label: "Criticas", value: "critical" },
-  { label: "Sem responsavel", value: "unassigned" },
+  { label: "Críticas", value: "critical" },
+  { label: "Sem responsável", value: "unassigned" },
   { label: "Em andamento", value: "doing" },
-  { label: "Concluidas", value: "done" },
+  { label: "Concluídas", value: "done" },
 ];
 
 type TaskFiltersProps = {
@@ -23,7 +23,7 @@ export function TaskFilters({
 }: TaskFiltersProps) {
   return (
     <section className="filters-bar" aria-label="Filtros de tarefas">
-      <div className="quick-filters" role="group" aria-label="Filtros rapidos">
+      <div className="quick-filters" role="group" aria-label="Filtros rápidos">
         {QUICK_FILTER_OPTIONS.map((filterOption) => (
           <button
             key={filterOption.value}
@@ -38,12 +38,12 @@ export function TaskFilters({
       </div>
 
       <label className="search-field">
-        <span>Buscar por tarefa ou responsavel</span>
+        <span>Buscar por tarefa ou responsável</span>
         <input
           type="search"
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          placeholder="Ex.: cobranca, Neemias, contratos"
+          placeholder="Ex.: cobrança, Neemias, contratos"
         />
       </label>
     </section>

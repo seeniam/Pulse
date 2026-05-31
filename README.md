@@ -34,12 +34,15 @@ O objetivo do teste técnico era integrar com a API real do ClickUp, processar t
 - Observabilidade básica com logs JSON seguros.
 - Testes unitários para as regras principais.
 
-Atualizacoes recentes do dashboard:
+Atualizações recentes do dashboard:
 
-- Atualizacao manual dos dados sem recarregar a pagina.
-- Indicador discreto de ultima sincronizacao.
-- Filtros rapidos executivos para destacar criticas, sem responsavel, em andamento e concluidas.
-- Ordenacao inteligente nas colunas, com tarefas criticas primeiro.
+- Atualização manual dos dados sem recarregar a página.
+- Indicador discreto de última sincronização.
+- Filtros rápidos executivos para destacar críticas, sem responsável, em andamento e concluídas.
+- Ordenação inteligente nas colunas, com tarefas críticas primeiro.
+- Skeleton de carregamento para resumo, filtros e colunas.
+- Microinterações leves com foco em acessibilidade e leitura executiva.
+- Insight executivo calculado a partir das tarefas filtradas.
 
 ## Regra `status_critico`
 

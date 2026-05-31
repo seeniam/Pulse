@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { fetchTasks } from "./api/tasksApi";
+import { DashboardSkeleton } from "./components/DashboardSkeleton";
+import { ExecutiveInsight } from "./components/ExecutiveInsight";
 import { SummaryCards } from "./components/SummaryCards";
 import { TaskBoard } from "./components/TaskBoard";
 import { TaskFilters } from "./components/TaskFilters";
@@ -22,16 +24,16 @@ const LAST_SYNC_FORMATTER = new Intl.DateTimeFormat("pt-BR", {
 
 function formatLastSync(lastSyncAt: Date | null) {
   if (!lastSyncAt) {
-    return "Aguardando primeira sincronizacao";
+    return "Aguardando primeira sincronização";
   }
 
   const elapsedMs = Date.now() - lastSyncAt.getTime();
 
   if (elapsedMs < 60 * 1000) {
-    return "Ultima sincronizacao: agora";
+    return "Última sincronização: agora";
   }
 
-  return `Ultima sincronizacao: ${LAST_SYNC_FORMATTER.format(lastSyncAt)}`;
+  return `Última sincronização: ${LAST_SYNC_FORMATTER.format(lastSyncAt)}`;
 }
 
 function App() {
@@ -62,7 +64,7 @@ function App() {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "Nao foi possivel conectar ao backend do Project Pulse.",
+          : "Não foi possível conectar ao backend do Project Pulse.",
       );
     } finally {
       if (isInitialLoad) {
@@ -128,8 +130,8 @@ function App() {
           <p className="eyebrow">Executive Task Dashboard</p>
           <h1>Project Pulse</h1>
           <p className="subtitle">
-            Painel executivo para acompanhar a saude geral, as tarefas criticas,
-            os gargalos em andamento e as entregas concluidas a partir do ClickUp.
+            Painel executivo para acompanhar a saúde geral, as tarefas críticas,
+            os gargalos em andamento e as entregas concluídas a partir do ClickUp.
           </p>
         </div>
         <div className="header-actions">
@@ -152,29 +154,35 @@ function App() {
         </div>
       </section>
 
-      <SummaryCards
-        totalTasks={filteredTasks.length}
-        criticalTasks={criticalTasks}
-        completedTasks={doneTasks.length}
-      />
-
-      <TaskFilters
-        value={query}
-        activeQuickFilter={activeQuickFilter}
-        onChange={setQuery}
-        onQuickFilterChange={setActiveQuickFilter}
-      />
-
       {isLoading ? (
-        <section className="feedback-panel">
-          <h2>Carregando dashboard</h2>
-          <p>Buscando tarefas reais do ClickUp pelo backend do Project Pulse.</p>
-        </section>
-      ) : null}
+        <DashboardSkeleton />
+      ) : (
+        <>
+          <SummaryCards
+            totalTasks={filteredTasks.length}
+            criticalTasks={criticalTasks}
+            completedTasks={doneTasks.length}
+          />
+
+          <ExecutiveInsight
+            totalTasks={filteredTasks.length}
+            criticalTasks={criticalTasks}
+            doingTasks={doingTasks.length}
+            doneTasks={doneTasks.length}
+          />
+
+          <TaskFilters
+            value={query}
+            activeQuickFilter={activeQuickFilter}
+            onChange={setQuery}
+            onQuickFilterChange={setActiveQuickFilter}
+          />
+        </>
+      )}
 
       {!isLoading && errorMessage ? (
         <section className="feedback-panel feedback-panel--error">
-          <h2>Conexao indisponivel</h2>
+          <h2>Conexão indisponível</h2>
           <p>{errorMessage}</p>
         </section>
       ) : null}
@@ -183,7 +191,7 @@ function App() {
         filteredTasks.length === 0 ? (
           <section className="feedback-panel">
             <h2>Nenhuma tarefa encontrada para este filtro.</h2>
-            <p>Ajuste a busca textual ou troque o filtro rapido para continuar a analise.</p>
+            <p>Ajuste a busca textual ou troque o filtro rápido para continuar a análise.</p>
           </section>
         ) : (
           <TaskBoard todoTasks={todoTasks} doingTasks={doingTasks} doneTasks={doneTasks} />

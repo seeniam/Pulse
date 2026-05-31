@@ -1,7 +1,16 @@
 import type { Task, TaskBoardStatus } from "../types/task";
 
 const DOING_KEYWORDS = ["doing", "progress", "progresso", "em progresso", "in progress"];
-const DONE_KEYWORDS = ["done", "complete", "completed", "concluido", "concluida", "finalizado"];
+const DONE_KEYWORDS = [
+  "closed",
+  "complete",
+  "completed",
+  "concluido",
+  "concluida",
+  "feito",
+  "done",
+  "finalizado",
+];
 
 export function normalizeText(value: string) {
   return value

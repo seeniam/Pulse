@@ -62,6 +62,8 @@ Crie um arquivo `.env` na raiz do projeto com base em `.env.example`:
 CLICKUP_TOKEN=
 CLICKUP_LIST_ID=
 PORT=3333
+CLIENT_ORIGIN=http://localhost:5173
+VITE_API_BASE_URL=http://localhost:3333
 ```
 
 Descricao das variaveis:
@@ -69,6 +71,11 @@ Descricao das variaveis:
 - `CLICKUP_TOKEN`: token de API do ClickUp.
 - `CLICKUP_LIST_ID`: id da lista no ClickUp usada como fonte de tarefas.
 - `PORT`: porta do backend local (padrao `3333`).
+- `CLIENT_ORIGIN`: origem permitida pelo CORS do backend.
+- `VITE_API_BASE_URL`: URL base usada pelo frontend para chamar o backend. Nao e segredo.
+
+Variaveis do backend: `CLICKUP_TOKEN`, `CLICKUP_LIST_ID`, `PORT`, `CLIENT_ORIGIN`.
+Variavel do frontend: `VITE_API_BASE_URL`.
 
 ## Instalacao
 
@@ -116,7 +123,7 @@ Tarefas:
 Integracao usada:
 
 ```text
-GET https://api.clickup.com/api/v2/list/{CLICKUP_LIST_ID}/task
+GET https://api.clickup.com/api/v2/list/{CLICKUP_LIST_ID}/task?include_closed=true
 ```
 
 Formato de retorno (normalizado):
@@ -159,7 +166,7 @@ Se `date_updated` vier ausente ou invalido, o calculo nao quebra e considera ape
 ## Decisoes Tecnicas
 
 - Integracao ClickUp isolada no backend para nao expor token.
-- Frontend consome somente a API local do projeto.
+- Frontend consome somente a API do backend do projeto.
 - Payload reduzido para campos relevantes ao dashboard executivo.
 - Classificacao visual de status no frontend para suportar valores customizados do ClickUp.
 
@@ -172,13 +179,44 @@ Se `date_updated` vier ausente ou invalido, o calculo nao quebra e considera ape
 
 ## Limitacoes Conhecidas
 
-- Endpoint do frontend esta fixo em `http://localhost:3333/api/tasks` para ambiente local.
 - Sem autenticacao de usuario (escopo do teste tecnico).
 - Sem cache ou retries avancados no backend.
 
+## Deploy Publico
+
+### Backend no Render
+
+Configuracao sugerida:
+
+- Root Directory: `server`
+- Build Command: `npm install && npm run build`
+- Start Command: `npm run start`
+- Health Check Path: `/api/health`
+
+Variaveis de ambiente no Render:
+
+- `CLICKUP_TOKEN`: token de API do ClickUp.
+- `CLICKUP_LIST_ID`: id da lista monitorada.
+- `CLIENT_ORIGIN`: URL publica do frontend na Vercel, por exemplo `https://seu-app.vercel.app`.
+
+O Render define `PORT` automaticamente. O servidor usa `process.env.PORT`.
+
+### Frontend na Vercel
+
+Configuracao sugerida:
+
+- Root Directory: `client`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+
+Variavel de ambiente na Vercel:
+
+- `VITE_API_BASE_URL`: URL publica do backend no Render, por exemplo `https://project-pulse-api.onrender.com`.
+
+`VITE_API_BASE_URL` nao contem segredo. O token do ClickUp permanece somente no backend.
+
 ## Proximos Passos Possiveis
 
-1. Parametrizar URL da API para ambientes diferentes (dev/staging/prod).
-2. Adicionar testes unitarios para `status_critico` e classificacao de status do frontend.
-3. Incluir observabilidade basica (logs estruturados e metricas simples).
-4. Evoluir para deploy em ambiente publico para avaliacao online.
+1. Adicionar testes unitarios para `status_critico` e classificacao de status do frontend.
+2. Incluir observabilidade basica (logs estruturados e metricas simples).
+3. Configurar pipeline de CI para build de backend e frontend.

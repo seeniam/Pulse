@@ -5,9 +5,33 @@ import { mapClickUpTask } from "./mappers/taskMapper.js";
 import { ClickUpApiError, fetchClickUpTasks } from "./services/clickupService.js";
 
 const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  ...(config.clientOrigin ? [config.clientOrigin] : []),
+];
 
-app.use(cors());
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("Origin not allowed by CORS."));
+    },
+  }),
+);
 app.use(express.json());
+
+app.get("/", (_request, response) => {
+  response.json({
+    service: "project-pulse-api",
+    status: "ok",
+    docs: "/api/health",
+  });
+});
 
 app.get("/api/health", (_request, response) => {
   response.json({

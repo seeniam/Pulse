@@ -9,12 +9,14 @@ export type AppConfig = {
   port: number;
   clickupToken?: string;
   clickupListId?: string;
+  clientOrigin?: string;
 };
 
 export const config: AppConfig = {
   port: Number(process.env.PORT || 3333),
   clickupToken: process.env.CLICKUP_TOKEN,
   clickupListId: process.env.CLICKUP_LIST_ID,
+  clientOrigin: process.env.CLIENT_ORIGIN,
 };
 
 export function getClickUpConfig() {

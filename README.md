@@ -45,6 +45,16 @@ Uma tarefa é crítica quando:
 
 Se `date_updated` vier ausente ou inválido, o cálculo não quebra e considera apenas as condições válidas.
 
+## Como Validar `status_critico` por Atraso
+
+A regra de atraso pode ser conferida sem expor token e sem depender de payload bruto do ClickUp:
+
+- Teste unitário: `npm run test:server` cobre tarefas com `dateUpdated` antigo, recente, ausente e inválido.
+- API local: `GET http://localhost:3333/api/tasks` retorna `dateUpdated` e `status_critico` no payload normalizado.
+- ClickUp real: uma tarefa sem atualização há mais de 3 dias deve aparecer como crítica mesmo sem prioridade `urgent`.
+
+Se a lista atual não tiver uma tarefa real antiga, a validação visual pode ser feita criando ou mantendo uma tarefa sem atualização por mais de 3 dias. A regra continua coberta por teste unitário determinístico.
+
 ## Stack
 
 - TypeScript

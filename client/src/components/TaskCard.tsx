@@ -4,6 +4,8 @@ type TaskCardProps = {
   task: Task;
 };
 
+const CRITICAL_REASON = "Prioridade urgente ou sem atualização há mais de 3 dias";
+
 function formatDate(value: string | null) {
   if (!value) {
     return "Sem data";
@@ -46,7 +48,11 @@ export function TaskCard({ task }: TaskCardProps) {
           <h3>{task.name}</h3>
           <p>{task.status}</p>
         </div>
-        {task.status_critico ? <span className="critical-badge">Crítica</span> : null}
+        {task.status_critico ? (
+          <span className="critical-badge" title={CRITICAL_REASON} aria-label={CRITICAL_REASON}>
+            Crítica
+          </span>
+        ) : null}
       </div>
 
       <dl className="task-meta">

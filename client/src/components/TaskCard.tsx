@@ -24,15 +24,27 @@ function formatDate(value: string | null) {
   }).format(date);
 }
 
-function formatPriority(priority: string | null) {
+function formatPriorityLabel(priority: string | null) {
   if (!priority) {
-    return "Sem prioridade";
+    return "Não informada";
   }
 
-  const normalizedPriority = priority.toLowerCase();
+  const normalizedPriority = priority.trim().toLowerCase();
 
   if (normalizedPriority === "urgent") {
     return "Urgente";
+  }
+
+  if (normalizedPriority === "high") {
+    return "Alta";
+  }
+
+  if (normalizedPriority === "normal") {
+    return "Normal";
+  }
+
+  if (normalizedPriority === "low") {
+    return "Baixa";
   }
 
   return normalizedPriority.charAt(0).toUpperCase() + normalizedPriority.slice(1);
@@ -58,7 +70,7 @@ export function TaskCard({ task }: TaskCardProps) {
       <dl className="task-meta">
         <div>
           <dt>Prioridade</dt>
-          <dd>{formatPriority(task.priority)}</dd>
+          <dd>{formatPriorityLabel(task.priority)}</dd>
         </div>
         <div>
           <dt>Responsável</dt>

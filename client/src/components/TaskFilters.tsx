@@ -43,7 +43,7 @@ export function TaskFilters({
           type="search"
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          placeholder="Ex.: cobrança, Neemias, contratos"
+          placeholder="Ex.: cobrança, contratos, CRM"
         />
       </label>
     </section>

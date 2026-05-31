@@ -1,16 +1,42 @@
 # Project Pulse
 
-Project Pulse e um dashboard executivo full stack para integrar com a API do ClickUp, processar tarefas e apresentar indicadores para lideranca.
+Project Pulse e um dashboard executivo full stack para lideranca operacional. Ele integra tarefas reais do ClickUp, calcula criticidade no backend e apresenta uma visao clara de saude, gargalos e conclusoes.
 
-O projeto usa backend em Node.js + Express + TypeScript e frontend em React + Vite + TypeScript. A integracao com ClickUp acontece somente no backend para manter o token fora do navegador.
+## Objetivo
 
-## Estrutura
+Entregar um painel executivo que permita:
+
+- visualizar volume total de trabalho;
+- identificar tarefas criticas rapidamente;
+- acompanhar andamento por estagio (`To Do`, `Doing`, `Done`);
+- filtrar tarefas por nome ou responsavel para tomada de decisao rapida.
+
+## Stack
+
+- Backend: Node.js + Express + TypeScript
+- Frontend: React + Vite + TypeScript
+- Integracao externa: ClickUp API v2
+- Estrutura: monorepo simples com `server/` e `client/`
+
+## Funcionalidades Entregues
+
+- Integracao real com ClickUp em `GET /api/tasks`
+- Variaveis sensiveis no backend via `.env`
+- Payload normalizado para o frontend
+- Regra `status_critico` calculada no backend
+- Dashboard executivo com:
+  - resumo de `Total de tarefas`, `Tarefas criticas` e `Concluidas`
+  - board em `To Do`, `Doing` e `Done`
+  - filtro por nome da tarefa ou responsavel
+  - destaque visual para tarefas criticas
+
+## Estrutura do Projeto
 
 ```text
 .
 |-- client/   # frontend React + Vite
 |-- server/   # backend Node.js + Express
-|-- docs/     # workflow e planejamento
+|-- docs/     # workflow e entrega
 |-- .env.example
 |-- .gitignore
 `-- README.md
@@ -21,10 +47,16 @@ O projeto usa backend em Node.js + Express + TypeScript e frontend em React + Vi
 - Node.js 20+ recomendado
 - npm 10+ recomendado
 
-## Configuracao de ambiente
+## Configuracao do ClickUp
 
-1. Crie um arquivo `.env` ou `.env.local` na raiz do projeto.
-2. Use `.env.example` como referencia:
+1. Gere ou use seu token pessoal da conta ClickUp.
+2. Identifique o `CLICKUP_LIST_ID` da lista que sera monitorada.
+
+Dica: em muitos links de lista do ClickUp, o id aparece apos `/li/`.
+
+## Variaveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto com base em `.env.example`:
 
 ```env
 CLICKUP_TOKEN=
@@ -32,13 +64,11 @@ CLICKUP_LIST_ID=
 PORT=3333
 ```
 
-O token do ClickUp deve permanecer apenas no backend. Nenhuma variavel sensivel deve ser exposta no frontend. O arquivo `.env.local` tambem e ignorado pelo Git e pode ser usado para credenciais locais.
+Descricao das variaveis:
 
-- `CLICKUP_TOKEN`: token pessoal ou token de app autorizado no ClickUp.
-- `CLICKUP_LIST_ID`: id da lista do ClickUp usada como origem das tarefas.
-- `PORT`: porta local do backend. O padrao do projeto e `3333`.
-
-Para encontrar o `CLICKUP_LIST_ID`, abra a lista no ClickUp e copie o id da URL da lista. Em muitas URLs ele aparece depois de `/li/`.
+- `CLICKUP_TOKEN`: token de API do ClickUp.
+- `CLICKUP_LIST_ID`: id da lista no ClickUp usada como fonte de tarefas.
+- `PORT`: porta do backend local (padrao `3333`).
 
 ## Instalacao
 
@@ -48,18 +78,27 @@ Na raiz do projeto:
 npm install
 ```
 
-Isso instala as dependencias dos workspaces `server` e `client`.
+## Como Rodar Localmente
 
-## Executando o backend
+Backend:
 
 ```bash
 npm run dev:server
 ```
 
-API esperada:
+Frontend:
+
+```bash
+npm run dev:client
+```
+
+URL esperada do frontend: `http://127.0.0.1:5173` (ou `http://localhost:5173`).
+
+## Como Testar a API
+
+Health check:
 
 - `GET http://localhost:3333/api/health`
-- `GET http://localhost:3333/api/tasks`
 
 Resposta esperada:
 
@@ -70,13 +109,17 @@ Resposta esperada:
 }
 ```
 
-O endpoint `/api/tasks` faz uma chamada real para:
+Tarefas:
+
+- `GET http://localhost:3333/api/tasks`
+
+Integracao usada:
 
 ```text
 GET https://api.clickup.com/api/v2/list/{CLICKUP_LIST_ID}/task
 ```
 
-Ele retorna tarefas normalizadas com estes campos:
+Formato de retorno (normalizado):
 
 ```json
 {
@@ -96,45 +139,46 @@ Ele retorna tarefas normalizadas com estes campos:
 }
 ```
 
-`status_critico` sera `true` quando a prioridade for `urgent` ou quando a tarefa estiver sem atualizacoes ha mais de 3 dias.
+## Como Usar o Dashboard
 
-## Executando o frontend
+1. Abra o frontend no navegador.
+2. Veja os cards de resumo com total, criticas e concluidas.
+3. Navegue pelas colunas `To Do`, `Doing` e `Done`.
+4. Use o campo de busca para filtrar por nome da tarefa ou responsavel.
+5. Clique em `Abrir no ClickUp` para abrir a tarefa original.
 
-```bash
-npm run dev:client
-```
+## Regra `status_critico`
 
-O Vite exibira a URL local no terminal, normalmente `http://localhost:5173`.
+Uma tarefa recebe `status_critico = true` quando:
 
-## Builds
+1. `priority === "urgent"`; ou
+2. `date_updated` (ClickUp) indica mais de 3 dias sem atualizacao.
 
-Backend:
+Se `date_updated` vier ausente ou invalido, o calculo nao quebra e considera apenas as condicoes validas.
 
-```bash
-npm run build:server
-```
+## Decisoes Tecnicas
 
-Frontend:
+- Integracao ClickUp isolada no backend para nao expor token.
+- Frontend consome somente a API local do projeto.
+- Payload reduzido para campos relevantes ao dashboard executivo.
+- Classificacao visual de status no frontend para suportar valores customizados do ClickUp.
 
-```bash
-npm run build:client
-```
+## Seguranca
 
-Build de todos os workspaces:
+- `CLICKUP_TOKEN` nunca vai para o frontend.
+- `.env` e `.env.local` estao no `.gitignore`.
+- Nao ha token real versionado no repositorio.
+- Erros retornados pelo backend sao sanitizados, sem vazar credenciais.
 
-```bash
-npm run build
-```
+## Limitacoes Conhecidas
 
-## Escopo atual
+- Endpoint do frontend esta fixo em `http://localhost:3333/api/tasks` para ambiente local.
+- Sem autenticacao de usuario (escopo do teste tecnico).
+- Sem cache ou retries avancados no backend.
 
-- Estrutura `server/` e `client/`
-- Endpoint backend de health check
-- Endpoint backend de tarefas integrado ao ClickUp
-- Normalizacao de tarefas e calculo de `status_critico`
-- Tela inicial do frontend
-- Configuracao segura de `.env`
+## Proximos Passos Possiveis
 
-## Proximas etapas
-
-- Construir o dashboard executivo com filtros, resumo e colunas de status
+1. Parametrizar URL da API para ambientes diferentes (dev/staging/prod).
+2. Adicionar testes unitarios para `status_critico` e classificacao de status do frontend.
+3. Incluir observabilidade basica (logs estruturados e metricas simples).
+4. Evoluir para deploy em ambiente publico para avaliacao online.

@@ -14,7 +14,7 @@ export function TaskColumn({ title, count, tasks }: TaskColumnProps) {
     <section className={`board-column board-column--${columnTone}`} aria-label={title}>
       <header className="board-column__header">
         <h2>{title}</h2>
-        <span>{count}</span>
+        <span className="column-count">{count}</span>
       </header>
 
       <div className="board-column__content">

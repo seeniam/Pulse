@@ -4,7 +4,13 @@ import { SummaryCards } from "./components/SummaryCards";
 import { TaskBoard } from "./components/TaskBoard";
 import { TaskFilters } from "./components/TaskFilters";
 import type { Task } from "./types/task";
-import { classifyTaskStatus, filterTasks } from "./utils/taskStatus";
+import {
+  applyQuickFilter,
+  classifyTaskStatus,
+  filterTasks,
+  sortTasksForBoard,
+  type TaskQuickFilter,
+} from "./utils/taskStatus";
 
 const LAST_SYNC_FORMATTER = new Intl.DateTimeFormat("pt-BR", {
   day: "2-digit",
@@ -31,6 +37,7 @@ function formatLastSync(lastSyncAt: Date | null) {
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [query, setQuery] = useState("");
+  const [activeQuickFilter, setActiveQuickFilter] = useState<TaskQuickFilter>("all");
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastSyncAt, setLastSyncAt] = useState<Date | null>(null);
@@ -70,7 +77,10 @@ function App() {
     void loadTasks("initial");
   }, []);
 
-  const filteredTasks = useMemo(() => filterTasks(tasks, query), [query, tasks]);
+  const filteredTasks = useMemo(() => {
+    const searchFilteredTasks = filterTasks(tasks, query);
+    return applyQuickFilter(searchFilteredTasks, activeQuickFilter);
+  }, [activeQuickFilter, query, tasks]);
 
   const { todoTasks, doingTasks, doneTasks, criticalTasks } = useMemo(() => {
     const groupedTasks = {
@@ -96,7 +106,12 @@ function App() {
       }
     }
 
-    return groupedTasks;
+    return {
+      todoTasks: sortTasksForBoard(groupedTasks.todoTasks),
+      doingTasks: sortTasksForBoard(groupedTasks.doingTasks),
+      doneTasks: sortTasksForBoard(groupedTasks.doneTasks),
+      criticalTasks: groupedTasks.criticalTasks,
+    };
   }, [filteredTasks]);
 
   const isBusy = isLoading || isRefreshing;
@@ -143,7 +158,12 @@ function App() {
         completedTasks={doneTasks.length}
       />
 
-      <TaskFilters value={query} onChange={setQuery} />
+      <TaskFilters
+        value={query}
+        activeQuickFilter={activeQuickFilter}
+        onChange={setQuery}
+        onQuickFilterChange={setActiveQuickFilter}
+      />
 
       {isLoading ? (
         <section className="feedback-panel">
@@ -162,8 +182,8 @@ function App() {
       {!isLoading && !errorMessage ? (
         filteredTasks.length === 0 ? (
           <section className="feedback-panel">
-            <h2>Nenhuma tarefa encontrada</h2>
-            <p>Ajuste o filtro para visualizar tarefas por nome ou responsavel.</p>
+            <h2>Nenhuma tarefa encontrada para este filtro.</h2>
+            <p>Ajuste a busca textual ou troque o filtro rapido para continuar a analise.</p>
           </section>
         ) : (
           <TaskBoard todoTasks={todoTasks} doingTasks={doingTasks} doneTasks={doneTasks} />

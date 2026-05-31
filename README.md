@@ -38,6 +38,8 @@ Atualizacoes recentes do dashboard:
 
 - Atualizacao manual dos dados sem recarregar a pagina.
 - Indicador discreto de ultima sincronizacao.
+- Filtros rapidos executivos para destacar criticas, sem responsavel, em andamento e concluidas.
+- Ordenacao inteligente nas colunas, com tarefas criticas primeiro.
 
 ## Regra `status_critico`
 

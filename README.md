@@ -7,7 +7,7 @@ Project Pulse é um dashboard executivo full stack integrado ao ClickUp. Ele tra
 - Frontend: https://pulse-dize.vercel.app
 - Backend health: https://pulse-tqpw.onrender.com/api/health
 - Backend tasks: https://pulse-tqpw.onrender.com/api/tasks
-- Vídeo demonstrativo: _link do Loom será adicionado após a gravação_
+- Vídeo demonstrativo: https://www.loom.com/share/08f6c233087547b8bfcc805d66cbc049
 
 Observação: o endpoint de tarefas depende das variáveis de ambiente do backend e da lista ClickUp configurada no deploy.
 
